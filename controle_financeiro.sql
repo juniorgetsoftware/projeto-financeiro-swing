@@ -46,6 +46,10 @@ INSERT INTO auditoria (acao, usuario_id, data, registro_antes, registro_depois)
 values ('LOGAR', 1, '2019-05-05 15:37:01', null, null);
 
 
-select auditoria.*, usuario.id, usuario.nome from auditoria inner join usuario on auditoria.usuario_id = usuario.id
+select auditoria.*, usuario.id, usuario.nome 
+from auditoria 
+inner join usuario 
+on auditoria.usuario_id = usuario.id
+where usuario.id = 1
 
 
