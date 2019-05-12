@@ -50,6 +50,5 @@ select auditoria.*, usuario.id, usuario.nome
 from auditoria 
 inner join usuario 
 on auditoria.usuario_id = usuario.id
-where usuario.id = 1
-
-
+where usuario.id = 1;
+ 

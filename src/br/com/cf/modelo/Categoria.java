@@ -8,6 +8,19 @@ public class Categoria {
     private String nome;
     private Status status = Status.ATIVO;
 
+    public Categoria() {
+
+    }
+
+    public Categoria(Long id) {
+        this.id = id;
+    }
+
+    public Categoria(Long id, String nome) {
+        this(id);
+        this.nome = nome;
+    }
+
     public Long getId() {
         return id;
     }

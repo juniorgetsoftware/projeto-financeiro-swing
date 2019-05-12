@@ -12,6 +12,14 @@ public class Usuario {
     private String email;
     private String telefone;
     private Status status = Status.ATIVO;
+    
+    public Usuario(){
+        
+    }
+    
+    public Usuario(Long id){
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

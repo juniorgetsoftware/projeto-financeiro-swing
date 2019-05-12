@@ -1,7 +1,8 @@
 package br.com.cf.dao;
 
 import br.com.cf.conexao.Conexao;
-import br.com.cf.modelo.Categoria;
+import br.com.cf.modelo.Perfil;
+import br.com.cf.modelo.Usuario;
 import br.com.cf.modelo.Status;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +17,19 @@ public class UsuarioDao {
 
     private Connection conexao;
 
-    public void salvar(Categoria categoria) {
-        String sql = "insert into categoria( nome, status) values (?, ?)";
+    public void salvar(Usuario usuario) {
+        String sql = "INSERT INTO usuario (nome, perfil, senha, login, telefone, email, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
         conexao = Conexao.getConexao();
         PreparedStatement ps;
         try {
             ps = this.conexao.prepareStatement(sql);
-            ps.setString(1, categoria.getNome());
-            ps.setString(2, categoria.getStatus().toString());
+            ps.setString(1, usuario.getNome());
+            ps.setString(2, usuario.getPerfil().toString());
+            ps.setString(3, usuario.getSenha());
+            ps.setString(4, usuario.getLogin());
+            ps.setString(5, usuario.getTelefone());
+            ps.setString(6, usuario.getEmail());
+            ps.setString(7, usuario.getStatus().toString());
             ps.execute();
             ps.close();
             conexao.close();
@@ -32,15 +38,21 @@ public class UsuarioDao {
         }
     }
 
-    public void editar(Categoria categoria) {
-        String sql = "update categoria set nome = ?, status = ? where id = ?";
+    public void editar(Usuario usuario) {
+        String sql = "UPDATE usuario SET nome=?, perfil=?, senha=?, login=?, telefone=?, email=?, status=? WHERE id=?";
         conexao = Conexao.getConexao();
         PreparedStatement ps;
         try {
             ps = this.conexao.prepareStatement(sql);
-            ps.setString(1, categoria.getNome());
-            ps.setString(2, categoria.getStatus().toString());
-            ps.setLong(3, categoria.getId());
+            ps.setString(1, usuario.getNome());
+            ps.setString(2, usuario.getPerfil().toString());
+            ps.setString(3, usuario.getSenha());
+            ps.setString(4, usuario.getLogin());
+            ps.setString(5, usuario.getTelefone());
+            ps.setString(6, usuario.getEmail());
+            ps.setString(7, usuario.getStatus().toString());
+            ps.setLong(8, usuario.getId());
+
             ps.execute();
             ps.close();
             conexao.close();
@@ -49,13 +61,13 @@ public class UsuarioDao {
         }
     }
 
-    public void deletar(Categoria categoria) {
-        String sql = "delete from categoria where id = ?";
+    public void deletar(Usuario usuario) {
+        String sql = "delete from usuario where id = ?";
         conexao = Conexao.getConexao();
         PreparedStatement ps;
         try {
             ps = this.conexao.prepareStatement(sql);
-            ps.setLong(1, categoria.getId());
+            ps.setLong(1, usuario.getId());
             ps.execute();
             ps.close();
             conexao.close();
@@ -64,20 +76,25 @@ public class UsuarioDao {
         }
     }
 
-    public List<Categoria> listar() {
-        String sql = "select * from categoria";
-        List<Categoria> categorias = new ArrayList<>();
+    public List<Usuario> listar() {
+        String sql = "select * from usuario";
+        List<Usuario> usuarios = new ArrayList<>();
         try {
             conexao = Conexao.getConexao();
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Categoria categoria = new Categoria();
-                categoria.setId(rs.getLong("id"));
-                categoria.setNome(rs.getString("nome"));
-                categoria.setStatus(Enum.valueOf(Status.class, rs.getString("status")));
+                Usuario usuario = new Usuario();
+                usuario.setEmail(rs.getString("email"));
+                usuario.setId(rs.getLong("id"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setPerfil(Enum.valueOf(Perfil.class, rs.getString("perfil")));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setStatus(Enum.valueOf(Status.class, rs.getString("status")));
+                usuario.setTelefone(rs.getString("telefone"));
 
-                categorias.add(categoria);
+                usuarios.add(usuario);
             }
             rs.close();
             ps.close();
@@ -86,6 +103,6 @@ public class UsuarioDao {
             Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return categorias;
+        return usuarios;
     }
 }
