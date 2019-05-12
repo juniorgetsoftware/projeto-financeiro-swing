@@ -5,12 +5,12 @@ import java.util.Objects;
 public class Usuario {
 
     private Long id;
-    private Perfil perfil;
-    private String senha;
     private String nome;
-    private String login;
     private String email;
     private String telefone;
+    private String login;
+    private Perfil perfil;
+    private String senha;
     private Status status = Status.ATIVO;
     
     public Usuario(){
